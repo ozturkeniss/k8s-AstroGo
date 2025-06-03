@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mission-service
+  namespace: astrogo
+spec:
+  selector:
+    app: mission-service
+  ports:
+  - name: grpc
+    port: 8084
+    targetPort: 8084
+  - name: http
+    port: 8086
+    targetPort: 8086 

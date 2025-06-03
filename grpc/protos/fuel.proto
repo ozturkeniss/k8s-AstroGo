@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package fuel;
+
+option go_package = "astrogo/grpc/fuel/grpc/protos";
+
+// Fuel transaction types
+enum TransactionType {
+  TRANSACTION_TYPE_ADDITION = 0;
+  TRANSACTION_TYPE_CONSUMPTION = 1;
+}
+
+// Fuel stock message
+message FuelStock {
+  uint64 id = 1;
+  double amount = 2;      // liters
+  string updated_at = 3;
+}
+
+// Fuel transaction message
+message FuelTransaction {
+  uint64 id = 1;
+  double amount = 2;      // liters
+  TransactionType type = 3;
+  string description = 4;
+  string created_at = 5;
+}
+
+// Get current stock request
+message GetCurrentStockRequest {}
+
+// Get current stock response
+message GetCurrentStockResponse {
+  double amount = 1;
+}
+
+// Add fuel request
+message AddFuelRequest {
+  double amount = 1;      // liters
+  string description = 2;
+}
+
+// Add fuel response
+message AddFuelResponse {
+  bool success = 1;
+}
+
+// Consume fuel request
+message ConsumeFuelRequest {
+  double amount = 1;      // liters
+}
+
+// Consume fuel response
+message ConsumeFuelResponse {
+  bool success = 1;
+}
+
+// Get transaction history request
+message GetTransactionHistoryRequest {}
+
+// Get transaction history response
+message GetTransactionHistoryResponse {
+  repeated FuelTransaction transactions = 1;
+}
+
+// Check availability request
+message CheckAvailabilityRequest {
+  double amount = 1;      // liters
+}
+
+// Check availability response
+message CheckAvailabilityResponse {
+  bool available = 1;
+}
+
+// Fuel service definition
+service FuelService {
+  rpc GetCurrentStock(GetCurrentStockRequest) returns (GetCurrentStockResponse);
+  rpc AddFuel(AddFuelRequest) returns (AddFuelResponse);
+  rpc ConsumeFuel(ConsumeFuelRequest) returns (ConsumeFuelResponse);
+  rpc GetTransactionHistory(GetTransactionHistoryRequest) returns (GetTransactionHistoryResponse);
+  rpc CheckAvailability(CheckAvailabilityRequest) returns (CheckAvailabilityResponse);
+} 

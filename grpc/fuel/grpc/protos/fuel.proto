@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package fuel;
+
+option go_package = "astrogo/grpc/fuel/grpc/protos";
+
+service FuelService {
+  rpc GetCurrentStock(GetCurrentStockRequest) returns (GetCurrentStockResponse);
+  rpc AddFuel(AddFuelRequest) returns (AddFuelResponse);
+  rpc ConsumeFuel(ConsumeFuelRequest) returns (ConsumeFuelResponse);
+  rpc GetTransactionHistory(GetTransactionHistoryRequest) returns (GetTransactionHistoryResponse);
+  rpc CheckAvailability(CheckAvailabilityRequest) returns (CheckAvailabilityResponse);
+}
+
+enum TransactionType {
+  TRANSACTION_TYPE_UNSPECIFIED = 0;
+  TRANSACTION_TYPE_ADD = 1;
+  TRANSACTION_TYPE_CONSUME = 2;
+}
+
+message GetCurrentStockRequest {}
+
+message GetCurrentStockResponse {
+  double stock = 1;
+}
+
+message AddFuelRequest {
+  double amount = 1;
+}
+
+message AddFuelResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message ConsumeFuelRequest {
+  double amount = 1;
+}
+
+message ConsumeFuelResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message GetTransactionHistoryRequest {}
+
+message GetTransactionHistoryResponse {
+  repeated FuelTransaction transactions = 1;
+}
+
+message CheckAvailabilityRequest {
+  double amount = 1;
+}
+
+message CheckAvailabilityResponse {
+  bool available = 1;
+  double stock = 2;
+}
+
+message FuelTransaction {
+  uint64 id = 1;
+  TransactionType type = 2;
+  double amount = 3;
+  string timestamp = 4;
+} 

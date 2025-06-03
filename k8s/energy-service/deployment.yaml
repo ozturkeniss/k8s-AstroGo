@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: energy-service
+  namespace: astrogo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: energy-service
+  template:
+    metadata:
+      labels:
+        app: energy-service
+    spec:
+      containers:
+      - name: energy-service
+        image: energy-service:latest
+        imagePullPolicy: Never
+        ports:
+        - name: grpc
+          containerPort: 8083
+        - name: http
+          containerPort: 8085
+        envFrom:
+        - configMapRef:
+            name: energy-service-config
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        readinessProbe:
+          httpGet:
+            path: /energy/stock
+            port: http
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /energy/stock
+            port: http
+          initialDelaySeconds: 15
+          periodSeconds: 20 

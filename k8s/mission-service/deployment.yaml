@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mission-service
+  namespace: astrogo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mission-service
+  template:
+    metadata:
+      labels:
+        app: mission-service
+    spec:
+      containers:
+      - name: mission-service
+        image: mission-service:latest
+        imagePullPolicy: Never  # Local image için
+        ports:
+        - name: grpc
+          containerPort: 8084
+        - name: http
+          containerPort: 8086
+        envFrom:
+        - configMapRef:
+            name: mission-service-config
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        readinessProbe:
+          httpGet:
+            path: /missions
+            port: http
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /missions
+            port: http
+          initialDelaySeconds: 15
+          periodSeconds: 20 

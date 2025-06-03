@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fuel-service
+  namespace: astrogo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fuel-service
+  template:
+    metadata:
+      labels:
+        app: fuel-service
+    spec:
+      containers:
+      - name: fuel-service
+        image: fuel-service:latest
+        imagePullPolicy: Never
+        ports:
+        - name: grpc
+          containerPort: 8087
+        - name: http
+          containerPort: 8088
+        envFrom:
+        - configMapRef:
+            name: fuel-service-config
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        readinessProbe:
+          httpGet:
+            path: /fuels
+            port: http
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /fuels
+            port: http
+          initialDelaySeconds: 15
+          periodSeconds: 20 

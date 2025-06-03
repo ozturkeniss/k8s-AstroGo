@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: astronaut-service
+  namespace: astrogo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: astronaut-service
+  template:
+    metadata:
+      labels:
+        app: astronaut-service
+    spec:
+      containers:
+      - name: astronaut-service
+        image: astronaut-service:latest
+        imagePullPolicy: Never  # Local image için
+        ports:
+        - name: grpc
+          containerPort: 8081
+        - name: http
+          containerPort: 8082
+        envFrom:
+        - configMapRef:
+            name: astronaut-service-config
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        readinessProbe:
+          httpGet:
+            path: /astronaut/available
+            port: http
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /astronaut/available
+            port: http
+          initialDelaySeconds: 15
+          periodSeconds: 20 

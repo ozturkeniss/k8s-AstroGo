@@ -1,0 +1,132 @@
+syntax = "proto3";
+
+package mission;
+
+option go_package = "astrogo/grpc/mission/grpc/protos";
+
+// Mission types
+enum MissionType {
+  MISSION_TYPE_EXPLORATION = 0;
+  MISSION_TYPE_RESEARCH = 1;
+  MISSION_TYPE_MAINTENANCE = 2;
+  MISSION_TYPE_TRANSPORT = 3;
+}
+
+// Mission statuses
+enum MissionStatus {
+  MISSION_STATUS_PENDING = 0;
+  MISSION_STATUS_IN_PROGRESS = 1;
+  MISSION_STATUS_COMPLETED = 2;
+  MISSION_STATUS_FAILED = 3;
+}
+
+// Mission resource requirements
+message MissionResource {
+  double energy_amount = 1; // kWh
+  double fuel_amount = 2;   // L
+}
+
+// Mission message
+message Mission {
+  uint64 id = 1;
+  string name = 2;
+  string description = 3;
+  MissionType type = 4;
+  MissionStatus status = 5;
+  double energy_req = 6;    // kWh
+  double fuel_req = 7;      // L
+  uint64 astronaut_id = 8;  // Optional
+  string created_at = 9;
+  string updated_at = 10;
+  string started_at = 11;   // Optional
+  string completed_at = 12; // Optional
+  string failed_at = 13;    // Optional
+  string failure_reason = 14; // Optional
+}
+
+// Create mission request
+message CreateMissionRequest {
+  string name = 1;
+  string description = 2;
+  MissionType type = 3;
+  double energy_req = 4;
+}
+
+// Create mission response
+message CreateMissionResponse {
+  Mission mission = 1;
+}
+
+// Get mission request
+message GetMissionRequest {
+  uint64 mission_id = 1;
+}
+
+// Get mission response
+message GetMissionResponse {
+  Mission mission = 1;
+}
+
+// List missions request
+message ListMissionsRequest {
+  MissionStatus status = 1; // Optional
+  MissionType type = 2;     // Optional
+}
+
+// List missions response
+message ListMissionsResponse {
+  repeated Mission missions = 1;
+}
+
+// Start mission request
+message StartMissionRequest {
+  uint64 mission_id = 1;
+}
+
+// Start mission response
+message StartMissionResponse {
+  Mission mission = 1;
+}
+
+// Complete mission request
+message CompleteMissionRequest {
+  uint64 mission_id = 1;
+}
+
+// Complete mission response
+message CompleteMissionResponse {
+  Mission mission = 1;
+}
+
+// Fail mission request
+message FailMissionRequest {
+  uint64 mission_id = 1;
+  string reason = 2;
+}
+
+// Fail mission response
+message FailMissionResponse {
+  Mission mission = 1;
+}
+
+// Assign astronaut request
+message AssignAstronautRequest {
+  uint64 mission_id = 1;
+  uint64 astronaut_id = 2;
+}
+
+// Assign astronaut response
+message AssignAstronautResponse {
+  Mission mission = 1;
+}
+
+// Mission service definition
+service MissionService {
+  rpc CreateMission(CreateMissionRequest) returns (CreateMissionResponse);
+  rpc GetMission(GetMissionRequest) returns (GetMissionResponse);
+  rpc ListMissions(ListMissionsRequest) returns (ListMissionsResponse);
+  rpc StartMission(StartMissionRequest) returns (StartMissionResponse);
+  rpc CompleteMission(CompleteMissionRequest) returns (CompleteMissionResponse);
+  rpc FailMission(FailMissionRequest) returns (FailMissionResponse);
+  rpc AssignAstronaut(AssignAstronautRequest) returns (AssignAstronautResponse);
+} 

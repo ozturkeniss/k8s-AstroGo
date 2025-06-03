@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package astronaut;
+
+option go_package = "astrogo/grpc/astronaut/grpc/protos";
+
+// Astronaut status
+enum AstronautStatus {
+  ASTRONAUT_STATUS_AVAILABLE = 0;
+  ASTRONAUT_STATUS_ON_MISSION = 1;
+  ASTRONAUT_STATUS_RESTING = 2;
+  ASTRONAUT_STATUS_TRAINING = 3;
+}
+
+// Astronaut message
+message Astronaut {
+  uint64 id = 1;
+  string name = 2;
+  AstronautStatus status = 3;
+  string created_at = 4;
+  string updated_at = 5;
+}
+
+// Create astronaut request
+message CreateAstronautRequest {
+  string name = 1;
+}
+
+// Create astronaut response
+message CreateAstronautResponse {
+  Astronaut astronaut = 1;
+}
+
+// Get astronaut request
+message GetAstronautRequest {
+  uint64 astronaut_id = 1;
+}
+
+// Get astronaut response
+message GetAstronautResponse {
+  Astronaut astronaut = 1;
+}
+
+// List astronauts request
+message ListAstronautsRequest {}
+
+// List astronauts response
+message ListAstronautsResponse {
+  repeated Astronaut astronauts = 1;
+}
+
+// Update astronaut status request
+message UpdateAstronautStatusRequest {
+  uint64 astronaut_id = 1;
+  AstronautStatus status = 2;
+}
+
+// Update astronaut status response
+message UpdateAstronautStatusResponse {
+  Astronaut astronaut = 1;
+}
+
+// Astronaut service definition
+service AstronautService {
+  rpc CreateAstronaut(CreateAstronautRequest) returns (CreateAstronautResponse);
+  rpc GetAstronaut(GetAstronautRequest) returns (GetAstronautResponse);
+  rpc ListAstronauts(ListAstronautsRequest) returns (ListAstronautsResponse);
+  rpc UpdateAstronautStatus(UpdateAstronautStatusRequest) returns (UpdateAstronautStatusResponse);
+} 

@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package energy;
+
+option go_package = "astrogo/grpc/energy/grpc/protos";
+// Energy transaction types
+enum TransactionType {
+  TRANSACTION_TYPE_ADDITION = 0;
+  TRANSACTION_TYPE_CONSUMPTION = 1;
+}
+
+// Energy stock message
+message EnergyStock {
+  uint64 id = 1;
+  double amount = 2;      // kWh
+  string updated_at = 3;
+}
+
+// Energy transaction message
+message EnergyTransaction {
+  uint64 id = 1;
+  double amount = 2;      // kWh
+  TransactionType type = 3;
+  string description = 4;
+  string created_at = 5;
+}
+
+// Get current stock request
+message GetCurrentStockRequest {}
+
+// Get current stock response
+message GetCurrentStockResponse {
+  double amount = 1;
+}
+
+// Add energy request
+message AddEnergyRequest {
+  double amount = 1;      // kWh
+  string description = 2;
+}
+
+// Add energy response
+message AddEnergyResponse {
+  bool success = 1;
+}
+
+// Consume energy request
+message ConsumeEnergyRequest {
+  double amount = 1;      // kWh
+}
+
+// Consume energy response
+message ConsumeEnergyResponse {
+  bool success = 1;
+}
+
+// Get transaction history request
+message GetTransactionHistoryRequest {
+  int32 limit = 1;  // Maximum number of transactions to return
+}
+
+// Get transaction history response
+message GetTransactionHistoryResponse {
+  repeated EnergyTransaction transactions = 1;
+}
+
+// Check availability request
+message CheckAvailabilityRequest {
+  double amount = 1;      // kWh
+}
+
+// Check availability response
+message CheckAvailabilityResponse {
+  bool available = 1;
+}
+
+// Energy service definition
+service EnergyService {
+  rpc GetCurrentStock(GetCurrentStockRequest) returns (GetCurrentStockResponse);
+  rpc AddEnergy(AddEnergyRequest) returns (AddEnergyResponse);
+  rpc ConsumeEnergy(ConsumeEnergyRequest) returns (ConsumeEnergyResponse);
+  rpc GetTransactionHistory(GetTransactionHistoryRequest) returns (GetTransactionHistoryResponse);
+  rpc CheckAvailability(CheckAvailabilityRequest) returns (CheckAvailabilityResponse);
+} 

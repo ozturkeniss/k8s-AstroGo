@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: energy-service-config
+  namespace: astrogo
+data:
+  DB_HOST: "postgres"
+  DB_USER: "postgres"
+  DB_PASSWORD: "postgres"
+  DB_NAME: "energydb"
+  DB_PORT: "5432"
+  KAFKA_BROKERS: "kafka:9092" 

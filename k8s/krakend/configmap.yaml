@@ -1,0 +1,209 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: krakend-config
+  namespace: astrogo
+data:
+  krakend.json: |
+    {
+      "version": 3,
+      "name": "AstroGo API Gateway",
+      "port": 8080,
+      "host": ["0.0.0.0"],
+      "cache_ttl": "3600s",
+      "timeout": "3s",
+      "endpoints": [
+        {
+          "endpoint": "/astronauts",
+          "method": "GET",
+          "output_encoding": "json",
+          "backend": [
+            {
+              "url_pattern": "/astronauts",
+              "encoding": "json",
+              "host": ["http://astronaut-service:8082"]
+            }
+          ]
+        },
+        {
+          "endpoint": "/astronauts/{id}",
+          "method": "GET",
+          "output_encoding": "json",
+          "backend": [
+            {
+              "url_pattern": "/astronauts/{id}",
+              "encoding": "json",
+              "host": ["http://astronaut-service:8082"]
+            }
+          ]
+        },
+        {
+          "endpoint": "/astronauts",
+          "method": "POST",
+          "output_encoding": "json",
+          "backend": [
+            {
+              "url_pattern": "/astronauts",
+              "encoding": "json",
+              "host": ["http://astronaut-service:8082"]
+            }
+          ]
+        },
+        {
+          "endpoint": "/astronauts/{id}/status",
+          "method": "PUT",
+          "output_encoding": "json",
+          "backend": [
+            {
+              "url_pattern": "/astronauts/{id}/status",
+              "encoding": "json",
+              "host": ["http://astronaut-service:8082"]
+            }
+          ]
+        },
+        {
+          "endpoint": "/missions",
+          "method": "GET",
+          "output_encoding": "json",
+          "backend": [
+            {
+              "url_pattern": "/missions",
+              "encoding": "json",
+              "host": ["http://mission-service:8086"]
+            }
+          ]
+        },
+        {
+          "endpoint": "/missions/{id}",
+          "method": "GET",
+          "output_encoding": "json",
+          "backend": [
+            {
+              "url_pattern": "/missions/{id}",
+              "encoding": "json",
+              "host": ["http://mission-service:8086"]
+            }
+          ]
+        },
+        {
+          "endpoint": "/missions",
+          "method": "POST",
+          "output_encoding": "json",
+          "backend": [
+            {
+              "url_pattern": "/missions",
+              "encoding": "json",
+              "host": ["http://mission-service:8086"]
+            }
+          ]
+        },
+        {
+          "endpoint": "/missions/start",
+          "method": "POST",
+          "output_encoding": "json",
+          "backend": [
+            {
+              "url_pattern": "/missions/start",
+              "encoding": "json",
+              "host": ["http://mission-service:8086"]
+            }
+          ]
+        },
+        {
+          "endpoint": "/missions/complete",
+          "method": "POST",
+          "output_encoding": "json",
+          "backend": [
+            {
+              "url_pattern": "/missions/complete",
+              "encoding": "json",
+              "host": ["http://mission-service:8086"]
+            }
+          ]
+        },
+        {
+          "endpoint": "/missions/fail",
+          "method": "POST",
+          "output_encoding": "json",
+          "backend": [
+            {
+              "url_pattern": "/missions/fail",
+              "encoding": "json",
+              "host": ["http://mission-service:8086"]
+            }
+          ]
+        },
+        {
+          "endpoint": "/missions/assign",
+          "method": "POST",
+          "output_encoding": "json",
+          "backend": [
+            {
+              "url_pattern": "/missions/assign",
+              "encoding": "json",
+              "host": ["http://mission-service:8086"]
+            }
+          ]
+        },
+        {
+          "endpoint": "/fuel/stock",
+          "method": "GET",
+          "output_encoding": "json",
+          "backend": [
+            {
+              "url_pattern": "/fuel/stock",
+              "encoding": "json",
+              "host": ["http://fuel-service:8088"]
+            }
+          ]
+        },
+        {
+          "endpoint": "/fuel/add",
+          "method": "POST",
+          "output_encoding": "json",
+          "backend": [
+            {
+              "url_pattern": "/fuel/add",
+              "encoding": "json",
+              "host": ["http://fuel-service:8088"]
+            }
+          ]
+        },
+        {
+          "endpoint": "/fuel/consume",
+          "method": "POST",
+          "output_encoding": "json",
+          "backend": [
+            {
+              "url_pattern": "/fuel/consume",
+              "encoding": "json",
+              "host": ["http://fuel-service:8088"]
+            }
+          ]
+        },
+        {
+          "endpoint": "/fuel/history",
+          "method": "GET",
+          "output_encoding": "json",
+          "backend": [
+            {
+              "url_pattern": "/fuel/history",
+              "encoding": "json",
+              "host": ["http://fuel-service:8088"]
+            }
+          ]
+        },
+        {
+          "endpoint": "/fuel/check",
+          "method": "GET",
+          "output_encoding": "json",
+          "backend": [
+            {
+              "url_pattern": "/fuel/check",
+              "encoding": "json",
+              "host": ["http://fuel-service:8088"]
+            }
+          ]
+        }
+      ]
+    } 
