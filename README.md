@@ -1,7 +1,7 @@
 # AstroGo API Gateway
 
 ## Overview
-AstroGo API Gateway is a microservices-based application that leverages KrakenD as an API Gateway to route requests to various backend services. The project is containerized and deployed on Kubernetes, ensuring scalability and reliability.
+This project represents a microservices-based system deployed on Kubernetes, using an API Gateway (KrakenD), NGINX ingress, Kafka for event streaming, and persistent volumes for storage. It is designed for scalability, modular service management, and robust event processing.
 
 ![Ekran görüntüsü 2025-06-03 041326](https://github.com/user-attachments/assets/591cccfa-dc0f-4d3d-b548-c501b0a87f2c)
 
