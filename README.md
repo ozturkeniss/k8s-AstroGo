@@ -12,6 +12,7 @@ This project represents a microservices-based system deployed on Kubernetes, usi
   - Astronaut Service
   - Mission Service
   - Fuel Service
+  - Energy Service
 
 ## Kubernetes Deployment
 
